@@ -25,8 +25,9 @@ async function analyzeNews() {
     try {
 
         const response =
-            await fetch(
-                "/api/analyze",
+    await fetch(
+        "http://192.168.50.117:5000/api/analyze",
+                
                 {
                     method:"POST",
 
