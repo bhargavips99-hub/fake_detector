@@ -39,8 +39,8 @@ def clean_text(text):
 # -----------------------------
 print("Loading datasets...")
 
-fake = pd.read_csv("dataset/Fake.csv")
-real = pd.read_csv("dataset/True.csv")
+fake = pd.read_csv("Fake.csv")
+real = pd.read_csv("True.csv")
 
 
 # 0 = FAKE
