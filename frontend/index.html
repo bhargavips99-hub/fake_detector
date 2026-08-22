@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TrustLens</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🛡️ TrustLens</h1>
+
+        <p>
+            AI-Powered Fake News Detection &
+            Verification System
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <label>
+            Enter News Article / Claim
+        </label>
+
+        <textarea
+            id="newsInput"
+            placeholder="Paste news article or social media claim here..."
+        ></textarea>
+
+        <button onclick="analyzeNews()">
+            Analyze News
+        </button>
+
+    </div>
+
+    <div
+        id="loading"
+        class="loading hidden"
+    >
+        Analyzing...
+    </div>
+
+    <div
+        id="resultCard"
+        class="result-card hidden"
+    >
+
+        <h2>Analysis Result</h2>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <h3>Prediction</h3>
+
+                <p id="prediction">
+                    -
+                </p>
+
+            </div>
+
+            <div class="result-box">
+
+                <h3>Confidence</h3>
+
+                <p id="confidence">
+                    -
+                </p>
+
+            </div>
+
+            <div class="result-box">
+
+                <h3>Trust Score</h3>
+
+                <p id="trustScore">
+                    -
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Detected Clickbait Words</h3>
+
+            <ul id="clickbaitWords"></ul>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Warning Signals</h3>
+
+            <ul id="warnings"></ul>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Explanation</h3>
+
+            <ul id="explanation"></ul>
+
+        </div>
+
+        <div class="section disclaimer">
+
+            <h3>Disclaimer</h3>
+
+            <p id="disclaimer"></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/js/script.js"></script>
+
+</body>
+</html>
