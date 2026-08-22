@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        TrustLens - Fake News Detector
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background:
+                #f4f7fb;
+
+            color:
+                #1f2937;
+
+        }
+
+
+        .container {
+
+            width:
+                90%;
+
+            max-width:
+                900px;
+
+            margin:
+                50px auto;
+
+            background:
+                white;
+
+            padding:
+                35px;
+
+            border-radius:
+                15px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.1
+                );
+
+        }
+
+
+        h1 {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                10px;
+
+        }
+
+
+        .subtitle {
+
+            text-align:
+                center;
+
+            color:
+                #6b7280;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        textarea {
+
+            width:
+                100%;
+
+            min-height:
+                220px;
+
+            padding:
+                15px;
+
+            font-size:
+                16px;
+
+            border:
+                1px solid
+                #d1d5db;
+
+            border-radius:
+                10px;
+
+            resize:
+                vertical;
+
+        }
+
+
+        button {
+
+            width:
+                100%;
+
+            margin-top:
+                20px;
+
+            padding:
+                15px;
+
+            border:
+                none;
+
+            border-radius:
+                10px;
+
+            background:
+                #2563eb;
+
+            color:
+                white;
+
+            font-size:
+                16px;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        button:hover {
+
+            background:
+                #1d4ed8;
+
+        }
+
+
+        button:disabled {
+
+            background:
+                #9ca3af;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        #result {
+
+            display:
+                none;
+
+            margin-top:
+                30px;
+
+            padding:
+                25px;
+
+            border-radius:
+                12px;
+
+            background:
+                #f9fafb;
+
+        }
+
+
+        .score {
+
+            font-size:
+                32px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        .reliable {
+
+            color:
+                #16a34a;
+
+        }
+
+
+        .verify {
+
+            color:
+                #d97706;
+
+        }
+
+
+        .misleading {
+
+            color:
+                #dc2626;
+
+        }
+
+
+        .loading {
+
+            display:
+                none;
+
+            text-align:
+                center;
+
+            margin-top:
+                20px;
+
+        }
+
+
+        ul {
+
+            padding-left:
+                20px;
+
+        }
+
+
+        .disclaimer {
+
+            margin-top:
+                20px;
+
+            padding:
+                12px;
+
+            background:
+                #fef3c7;
+
+            border-radius:
+                8px;
+
+            font-size:
+                14px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <h1>
+            🛡️ TrustLens
+        </h1>
+
+
+        <p class="subtitle">
+
+            AI-Powered Fake News Detection
+            and Verification System
+
+        </p>
+
+
+        <textarea
+
+            id="newsInput"
+
+            placeholder=
+            "Paste a news article or claim here..."
+
+        ></textarea>
+
+
+        <button
+
+            id="analyzeButton"
+
+            onclick="analyzeNews()"
+
+        >
+
+            🔍 Analyze News
+
+        </button>
+
+
+        <div
+            id="loading"
+            class="loading"
+        >
+
+            🤖 AI is analyzing the news...
+
+        </div>
+
+
+        <div id="result">
+
+
+            <h2>
+                Analysis Result
+            </h2>
+
+
+            <p>
+
+                <strong>
+                    Prediction:
+                </strong>
+
+                <span
+                    id="prediction"
+                ></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Confidence:
+                </strong>
+
+                <span
+                    id="confidence"
+                ></span>%
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Trust Score:
+                </strong>
+
+                <span
+                    id="trustScore"
+                    class="score"
+                ></span>/100
+
+            </p>
+
+
+            <h3>
+                AI Probabilities
+            </h3>
+
+
+            <p>
+
+                Fake:
+                <span
+                    id="fakeProbability"
+                ></span>%
+
+            </p>
+
+
+            <p>
+
+                Real:
+                <span
+                    id="realProbability"
+                ></span>%
+
+            </p>
+
+
+            <h3>
+                Clickbait Signals
+            </h3>
+
+
+            <ul
+                id="clickbaitList"
+            ></ul>
+
+
+            <h3>
+                Warning Signals
+            </h3>
+
+
+            <ul
+                id="warningList"
+            ></ul>
+
+
+            <h3>
+                Why?
+            </h3>
+
+
+            <ul
+                id="explanationList"
+            ></ul>
+
+
+            <div
+                id="disclaimer"
+                class="disclaimer"
+            ></div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+
+        async function analyzeNews() {
+
+
+            const newsInput = document.getElementById(
+                "newsInput"
+            );
+
+
+            const analyzeButton = document.getElementById(
+                "analyzeButton"
+            );
+
+
+            const loading = document.getElementById(
+                "loading"
+            );
+
+
+            const result = document.getElementById(
+                "result"
+            );
+
+
+            const text = newsInput.value.trim();
+
+
+            if (text.length < 10) {
+
+                alert(
+                    "Please enter more news text."
+                );
+
+                return;
+
+            }
+
+
+            analyzeButton.disabled = true;
+
+            loading.style.display = "block";
+
+            result.style.display = "none";
+
+
+            try {
+
+
+                const response = await fetch(
+
+                    "/api/analyze",
+
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                text: text
+
+                            })
+
+                    }
+
+                );
+
+
+                const data = await response.json();
+
+
+                if (!data.success) {
+
+                    alert(
+                        data.error
+                    );
+
+                    return;
+
+                }
+
+
+                displayResult(
+                    data
+                );
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    error
+                );
+
+
+                alert(
+                    "Cannot connect to the backend."
+                );
+
+
+            }
+
+
+            finally {
+
+
+                analyzeButton.disabled = false;
+
+                loading.style.display = "none";
+
+            }
+
+
+        }
+
+
+        function displayResult(data) {
+
+
+            const result = document.getElementById(
+                "result"
+            );
+
+
+            const prediction = document.getElementById(
+                "prediction"
+            );
+
+
+            prediction.textContent =
+                data.prediction;
+
+
+            prediction.className =
+                data.prediction_type;
+
+
+            document.getElementById(
+                "confidence"
+            ).textContent =
+                data.confidence;
+
+
+            const trustScore = document.getElementById(
+                "trustScore"
+            );
+
+
+            trustScore.textContent =
+                data.trust_score;
+
+
+            trustScore.className =
+                "score "
+                +
+                data.prediction_type;
+
+
+            document.getElementById(
+                "fakeProbability"
+            ).textContent =
+                data.probabilities.fake;
+
+
+            document.getElementById(
+                "realProbability"
+            ).textContent =
+                data.probabilities.real;
+
+
+            createList(
+
+                "clickbaitList",
+
+                data.clickbait_words,
+
+                "No major clickbait words detected."
+
+            );
+
+
+            createList(
+
+                "warningList",
+
+                data.warning_signals,
+
+                "No major warning signals detected."
+
+            );
+
+
+            createList(
+
+                "explanationList",
+
+                data.explanation,
+
+                "No explanation available."
+
+            );
+
+
+            document.getElementById(
+                "disclaimer"
+            ).textContent =
+                "⚠️ "
+                +
+                data.disclaimer;
+
+
+            result.style.display =
+                "block";
+
+
+        }
+
+
+        function createList(
+
+            elementId,
+
+            items,
+
+            emptyMessage
+
+        ) {
+
+
+            const list = document.getElementById(
+                elementId
+            );
+
+
+            list.innerHTML = "";
+
+
+            if (items.length === 0) {
+
+
+                const item =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                item.textContent =
+                    emptyMessage;
+
+
+                list.appendChild(
+                    item
+                );
+
+
+                return;
+
+            }
+
+
+            items.forEach(
+
+                function(text) {
+
+
+                    const item =
+                        document.createElement(
+                            "li"
+                        );
+
+
+                    item.textContent =
+                        text;
+
+
+                    list.appendChild(
+                        item
+                    );
+
+
+                }
+
+            );
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
